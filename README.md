@@ -1,22 +1,36 @@
-# One Hand Control — Android clone starter
+# One Hand Control — full-featured clone project
 
-An offline-first native Android starter inspired by the public One Hand Control guide and the user's Side Panel mockup.
+Offline-first native Android project inspired by the public One Hand Control guide. This is an independent implementation and does not include the original app's proprietary source/assets.
 
-## Current build
-- Android floating edge handle using the overlay permission
-- One panel surface with Apps / Quick / Groups / Media tabs
-- Quick links to Android Wi-Fi, Bluetooth, Sound and Settings screens
-- Foreground service keeps the panel available while running
-- No INTERNET permission is declared
+## Implemented in this build
+- Accessibility-service based left/right/top/bottom edge zones
+- Tap, double tap, long press, pull inward and directional swipe recognition
+- Configurable action mappings for Back, Home, Recents, notifications, Quick Settings, screenshot, power dialog, lock screen, volume, mute, brightness settings, flashlight, and floating panels
+- Quick Tools: brightness and media volume sliders, flashlight, Wi-Fi/Bluetooth settings, notification shade and Quick Settings
+- Pie Control: configurable radial-style action grid
+- App Launcher: searchable list of launchable installed apps
+- Side Panel: Actions, clipboard view while app is foreground, and on-device notes
+- Media transport buttons, remote cursor touch pad (uses AccessibilityService gesture dispatch), quick timer
+- Edge size/length/sensitivity and gesture timing settings
+- No INTERNET permission in manifest; no server or analytics dependency
 
-## Build APK on GitHub
-Open **Actions → Build Android APK → Run workflow**. When the workflow completes, open its run and download the `OneHandControl-debug-apk` artifact.
+## Setup
+1. Install APK.
+2. Open app and enable **One Hand Control Edge Gestures** in Android Accessibility settings.
+3. Return to app and configure Edges and Actions.
+4. Allow Modify System Settings if you want the brightness slider to change system brightness.
+5. Use left/right edge trigger zones to open your selected panels.
 
-## Install
-Download and install `app-debug.apk` on Android. Allow “Display over other apps”, then start the edge panel.
+## Build
+GitHub → Actions → Build Android APK → Run workflow. Download artifact `OneHandControl-debug-apk`.
 
-## Important limitations of this starter
-This is an initial native implementation, not a feature-complete reproduction. Android restricts direct control of protected Quick Settings toggles, app launching, global gestures, media sessions, cursor simulation and accessibility actions. Those need explicit user-granted permissions / accessibility-service implementation and device testing. “Add app”, custom gesture mapping, pie menu, bottom 3-zone gestures, remote cursor and full media-session controls are planned follow-up milestones. The app does not silently grant permissions or bypass Android security.
+## Android limitations
+- Android/OEM versions may restrict lock-screen, screenshot, power, torch and global navigation actions.
+- Clipboard reads are restricted by Android to foreground/focused apps; the panel reads current clipboard only while open.
+- Wi-Fi/mobile-data master switches are not directly toggled by normal third-party apps; settings screens are opened instead.
+- Media buttons depend on the active media session and Android/OEM support.
+- Accessibility gesture injection and edge overlays require explicit user enablement. Do not enable the service if you do not trust the app.
+- Some advanced features from the reference app (notification carousel, macro recorder, drawn gestures, app-specific pause rules, full multi-ring pie editing, notch cutout calibration, per-zone sector editor) remain future work; no fake controls are presented as fully functional.
 
-## Compatibility
-minSdk 26, target/compile SDK 35, Java 17. GitHub Actions builds a debug APK.
+## Technical
+Kotlin, Android Gradle Plugin 8.7.3, Kotlin 2.0.21, compile/target SDK 35, min SDK 26, Java 17.
